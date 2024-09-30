@@ -8,7 +8,7 @@ Zest_Storage_microSD board enables the use of microSD card with Zephyr OS.
 2. Compile and flash application using `west` tool:
    - Shield name: `zest_storage_microsd`
 
-## Recommanded configuration
+## Recommended configuration
 
 If you want to use a FatFS file system on a FAT SD card, you should add the following configuration to your `prj.conf` file:
 
