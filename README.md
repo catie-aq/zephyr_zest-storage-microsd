@@ -25,5 +25,5 @@ CONFIG_FS_FATFS_LFN=y # Optional, allows longer filenames (different from 8.3 fo
 ```
 
 > [!NOTE]
-> On STM32 targets, you may need to lower the default SPI frequency defined if the shield overlay. A 10 MHz clock has been succesfully tested on the Zest_Core STM32L4ARG.
+> On STM32 targets, you may need to lower the default SPI frequency defined if the shield overlay. A 10 MHz clock has been succesfully tested on the Zest_Core STM32L4ARG.  
 > `spi-max-frequency = <10000000>;`
