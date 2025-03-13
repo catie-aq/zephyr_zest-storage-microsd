@@ -3,24 +3,30 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-/ {
-	aliases {
-		sdhc0 = &sdhc0_zest_storage_microsd;
-	};
-};
+#include <zephyr/dt-bindings/gpio/sixtron-header.h>
 
-&sixtron_spi {
-	status = "okay";
+/* Defines every peripheral used by the shield */
+#define PERIPHERAL_ZEST_STORAGE_MICROSD(port) \
+	spi_zest_storage_microsd_##port: &sixtron_connector_##port##_spi {};
 
-	sdhc0_zest_storage_microsd: sdhc@0 {
-		compatible = "zephyr,sdhc-spi-slot";
-		reg = <0>;
-		status = "okay";
-		mmc {
-			compatible = "zephyr,sdmmc-disk";
-			disk-name = "SD";
-			status = "okay";
-		};
-		spi-max-frequency = <24000000>;
+/* Declare each drivers */
+#define DRIVERS_ZEST_STORAGE_MICROSD(port) \
+	&spi_zest_storage_microsd_##port { \
+		status = "okay"; \
+		sdhc_zest_storage_microsd_##port: sdhc##port@0 { \
+			compatible = "zephyr,sdhc-spi-slot"; \
+			reg = <0>; \
+			status = "okay"; \
+			mmc { \
+				compatible = "zephyr,sdmmc-disk"; \
+				disk-name = "SD"; \
+				status = "okay"; \
+			}; \
+			spi-max-frequency = <24000000>; \
+		}; \
 	};
-};
+
+/* Execute macro in the right order */
+#define ZEST_STORAGE_MICROSD(port) \
+    PERIPHERAL_ZEST_STORAGE_MICROSD(port) \
+    DRIVERS_ZEST_STORAGE_MICROSD(port)
