@@ -10,7 +10,7 @@
 	spi_zest_storage_microsd_##port: &sixtron_connector_##port##_spi {};
 
 /* Declare each drivers */
-#define DRIVERS_ZEST_STORAGE_MICROSD(port) \
+#define DRIVERS_ZEST_STORAGE_MICROSD(port, diskname) \
 	&spi_zest_storage_microsd_##port { \
 		status = "okay"; \
 		sdhc_zest_storage_microsd_##port: sdhc##port@0 { \
@@ -19,7 +19,7 @@
 			status = "okay"; \
 			mmc { \
 				compatible = "zephyr,sdmmc-disk"; \
-				disk-name = "SD"; \
+				disk-name = ##diskname; \
 				status = "okay"; \
 			}; \
 			spi-max-frequency = <24000000>; \
@@ -29,4 +29,8 @@
 /* Execute macro in the right order */
 #define ZEST_STORAGE_MICROSD(port) \
     PERIPHERAL_ZEST_STORAGE_MICROSD(port) \
-    DRIVERS_ZEST_STORAGE_MICROSD(port)
+    DRIVERS_ZEST_STORAGE_MICROSD(port, "SD")
+
+#define ZEST_STORAGE_MICROSD_DISKNAME(port, diskname) \
+    PERIPHERAL_ZEST_STORAGE_MICROSD(port) \
+    DRIVERS_ZEST_STORAGE_MICROSD(port, diskname)
