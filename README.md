@@ -19,6 +19,19 @@ Zest_Storage_microSD board support for Zephyr OS.
 
 - Activate support for the shield by adding `--shield zest_storage_microsd` to the west command.
 
+## Custom mount name
+
+To change the default "SD" mount name, the following must be added to the `app.overlay`:
+
+````````c
+ZEST_STORAGE_MICROSD(1) /* Zest_Storage_microSD connected to Zest_Core first port */
+&sdhc_zest_storage_microsd_1 {
+	mmc {
+		disk-name = "CUSTOM_NAME";
+	};
+};
+````````
+
 ## Recommended configuration
 
 To use a FatFs file system on a SD card, add the following configuration to your `prj.conf` file:
@@ -36,5 +49,10 @@ CONFIG_FS_FATFS_LFN=y # Optional, allows longer filenames (different from 8.3 fo
 ```
 
 > [!NOTE]
-> On STM32 targets, you may need to lower the default SPI frequency defined if the shield overlay. A 10 MHz clock has been succesfully tested on the Zest_Core STM32L4ARG.
-> `spi-max-frequency = <10000000>;`
+> On STM32 targets, you may need to lower the default SPI frequency defined if the shield overlay. A 10 MHz clock has been succesfully tested on the Zest_Core STM32L4ARG. Update your `sdhc_zest_storage_microsd_##` accordingly, e.g.:
+>
+> ``````
+> &sdhc_zest_storage_microsd_1{
+> 	spi-max-frequency = <10000000>;
+> };
+> ``````
