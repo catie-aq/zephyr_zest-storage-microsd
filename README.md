@@ -48,11 +48,14 @@ CONFIG_FS_FATFS_MOUNT_MKFS=y # Optional, adds auto-formatting if mounting fails
 CONFIG_FS_FATFS_LFN=y # Optional, allows longer filenames (different from 8.3 format)
 ```
 
-> [!NOTE]
-> On STM32 targets, you may need to lower the default SPI frequency defined if the shield overlay. A 10 MHz clock has been succesfully tested on the Zest_Core STM32L4ARG. Update your `sdhc_zest_storage_microsd_##` accordingly, e.g.:
->
-> ``````
-> &sdhc_zest_storage_microsd_1{
-> 	spi-max-frequency = <10000000>;
-> };
-> ``````
+## SPI Frequency
+
+The driver sets the maximum SPI frequency to 10 MHz by default, to support all 6TRON Zest Core "out of the box" (especially STM32 boards).
+
+To override this, you will need to change the configuration in the board or app overlay file, and update your `sdhc_zest_storage_microsd_##` accordingly. For example:
+
+``````
+&sdhc_zest_storage_microsd_1{
+  spi-max-frequency = <24000000>;
+};
+``````
